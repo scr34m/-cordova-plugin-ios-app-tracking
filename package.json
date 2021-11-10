@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/scr34m/cordova-plugin-ios-app-tracking"
+    "url": "git+https://github.com/scr34m/cordova-plugin-ios-app-tracking.git"
   },
   "keywords": [
     "cordova",
