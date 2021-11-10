@@ -15,8 +15,6 @@
             if ([ATTrackingManager trackingAuthorizationStatus] == ATTrackingManagerAuthorizationStatusNotDetermined) {
                 NSLog(@"[IOSAppTracking] Asking permission...");
                 [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
-                    NSLog(@"[IOSAppTracking] permission status: %lu", status);
-
                     switch (status) {
                         case ATTrackingManagerAuthorizationStatusAuthorized:
                             [res setString:@"authorized"];
@@ -38,14 +36,19 @@
                             [res setString:@"unknown"];
                             break;
                     }
-                    NSLog(@"[IOSAppTracking] permission status result: %@", res);
+                    NSLog(@"[IOSAppTracking] permission status result: %lu, %@", status, res);
+                    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:res];
+                    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
                 }];
             } else {
                 NSLog(@"[IOSAppTracking] Dialog was already shown, skipping ...");
+                CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:res];
+                [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
             }
+        } else {
+            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:res];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
         }
-        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:res];
-        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];
 }
 
